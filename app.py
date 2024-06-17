@@ -2,19 +2,26 @@ import streamlit as st
 import pickle
 import gdown
 import os
+import sys
 
 # Function to download files from Google Drive
 def download_files():
-    url_movies = 'https://drive.google.com/file/d/1PgyfKRXUXBUQ3sGXJMMVnWoeAtAkmQA5/view?usp=drive_link'
-    url_similarity = 'https://drive.google.com/file/d/1uIPbBw58MRGOWPMN73lr97kuYYj9L63o/view?usp=drive_link'
+    url_movies = 'https://drive.google.com/uc?id=<movies_file_id>'
+    url_similarity = 'https://drive.google.com/uc?id=<similarity_file_id>'
     output_movies = 'movies.pkl'
     output_similarity = 'similarity.pkl'
     
     if not os.path.exists(output_movies):
-        gdown.download(url_movies, output_movies, quiet=False)
+        with open(os.devnull, 'w') as devnull:
+            sys.stdout = devnull
+            gdown.download(url_movies, output_movies, quiet=True)
+            sys.stdout = sys.__stdout__
         
     if not os.path.exists(output_similarity):
-        gdown.download(url_similarity, output_similarity, quiet=False)
+        with open(os.devnull, 'w') as devnull:
+            sys.stdout = devnull
+            gdown.download(url_similarity, output_similarity, quiet=True)
+            sys.stdout = sys.__stdout__
 
 # Download the files
 download_files()
